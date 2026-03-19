@@ -243,7 +243,7 @@ shell         4444   running
 observatory   9090   running
 ```
 
-Open `http://localhost:9090` (or your Tailscale IP) to see your dashboard.
+Open `http://localhost:9090` (or `http://<your-tailscale-ip>:9090`) to see your dashboard.
 
 See `CUSTOMIZE.md` in your `observatory` directory to wire up SMS alerts via `txtme`.
 
