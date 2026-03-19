@@ -26,8 +26,11 @@ epm --version
 
 ## 2. Install epc
 
-`epc` is the process supervisor that runs your EPS services as persistent background
-processes.
+The `epm` installer will ask if you want to install `epc` — say yes. `epc` is the process
+supervisor that runs your EPS services as persistent background processes, and you'll need
+it for everything that follows.
+
+If you skipped it or installed `epm` non-interactively, run:
 
 ```bash
 epm runtime install epc
