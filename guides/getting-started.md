@@ -44,25 +44,28 @@ epc --version
 
 ---
 
-## 3. Set up Tailscale
+## 3. Connect your phone
 
-> **Note:** Tailscale is optional — you can bind shell to localhost or your LAN instead.
-> But Tailscale is how you get your phone onto the same private network as your Mac in about
-> two minutes, with no port forwarding or firewall config.
+There are two ways to get phone access to your Mac. Pick one.
 
-### On your Mac
+### Option A: Tailscale + web terminal (recommended)
+
+Tailscale creates a private encrypted network between your devices in about two minutes — no
+port forwarding, no firewall config. The `shell` harness you'll deploy in step 4 is a
+web-based terminal that runs in your phone's browser over Tailscale.
+
+**On your Mac:**
 
 [Download Tailscale for macOS](https://tailscale.com/download/mac) and sign in with a
-Google, GitHub, or Microsoft account. A **tailnet** is created automatically — a private
-network that only your devices can see, with end-to-end encryption.
+Google, GitHub, or Microsoft account. A **tailnet** is created automatically.
 
-### On your iPhone
+**On your iPhone:**
 
 Install [Tailscale from the App Store](https://apps.apple.com/us/app/tailscale/id1470499037),
 sign in with the **same account**, and tap **Connect**. Your phone is now on the same
-tailnet as your Mac. That's genuinely all there is to it.
+tailnet as your Mac.
 
-### Find your Mac's Tailscale IP
+**Find your Mac's Tailscale IP:**
 
 ```bash
 tailscale ip -4
@@ -71,6 +74,34 @@ tailscale ip -4
 You'll get something like `100.x.x.x`. Every EPS service binds to this address by default,
 so anything you deploy is immediately reachable from your phone at
 `http://<tailscale-ip>:<port>`.
+
+Continue to step 4 to deploy the web terminal.
+
+---
+
+### Option B: SSH app (Termius, JuiceSSH, etc.)
+
+If you'd rather use a dedicated SSH client than a browser-based terminal, skip steps 4–8
+and connect directly:
+
+1. **Generate an SSH key on your Mac** (if you don't have one):
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ""
+   ```
+
+2. **Add it to authorized keys:**
+   ```bash
+   cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+   ```
+
+3. **Copy the private key to your phone** and add your Mac's IP to your SSH app. Use your
+   LAN IP (`ipconfig getifaddr en0`) or Tailscale IP if you've installed it.
+
+This approach requires no EPS harness — just sshd, which is already running on macOS.
+Enable it in **System Settings → General → Sharing → Remote Login**.
+
+> If you go this route, you can still come back to deploy EPS harnesses later. `epm new`
+> and `epc deploy` work the same either way.
 
 ---
 
@@ -95,7 +126,10 @@ Read `CUSTOMIZE.md` — it covers every config knob before you deploy.
 
 ### Required setup
 
-**Generate a dedicated SSH key** (shell SSHs into localhost to spawn your terminal):
+**Generate a dedicated SSH key for shell:**
+
+The web terminal works by having the Node server SSH into your own machine to create a
+terminal session. It needs its own key so it can do that without a password prompt.
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/shell_key -N ""
