@@ -83,8 +83,7 @@ If you already have an SSH key in `~/.ssh/authorized_keys`, you can skip keygen 
 
 **Install dependencies:**
 
-`shell` is a Node.js app, so you need npm. If you don't have it, install
-[Node.js](https://nodejs.org) first, then:
+`shell` is a Node.js app. You need **Node 18 or later** — if you're not sure what you have, run `node --version`. If you don't have Node, install it from [nodejs.org](https://nodejs.org) first, then:
 
 ```bash
 npm install
