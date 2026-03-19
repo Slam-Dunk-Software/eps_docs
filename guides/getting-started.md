@@ -149,9 +149,16 @@ cat ~/.ssh/shell_key.pub >> ~/.ssh/authorized_keys
 
 **Install dependencies:**
 
+`shell` is a Node.js app, so you need npm. If you don't have it, install
+[Node.js](https://nodejs.org) first, then:
+
 ```bash
 npm install
 ```
+
+> **Don't skip this.** If you run `epc deploy` before `npm install`, the service will
+> crash on startup. `epc` will show you the error logs, but save yourself the detour —
+> run `npm install` first.
 
 **Create a `.env` file with your PIN:**
 
