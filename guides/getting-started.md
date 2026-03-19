@@ -253,9 +253,7 @@ To have `epc` launch all your services automatically when you log in:
 epc install-startup
 ```
 
-This installs a LaunchAgent that runs `epc startup` at login. Individual services opt in
-via `startup = true` in their `eps.toml` — all official EPS harnesses include this by
-default.
+On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd user unit (`~/.config/systemd/user/epc-startup.service`). Individual services opt in via `startup = true` in their `eps.toml` — all official EPS harnesses include this by default.
 
 ---
 
