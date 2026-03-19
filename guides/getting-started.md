@@ -119,61 +119,34 @@ shell   4444   running
 Open `http://localhost:4444` in your browser. Enter your PIN. You're in.
 
 <details>
-<summary>Troubleshooting</summary>
+<summary>Having issues? Expand troubleshooting</summary>
+<p>Start by checking the logs:</p>
+<pre><code>epc logs shell   # or whatever you named it</code></pre>
+<p>Most issues are obvious from the first few lines.</p>
 
-Something not working? Start here:
+<h4>Setup screen instead of PIN pad</h4>
+<p>You haven't set <code>SHELL_TOKEN</code> in your <code>.env</code> yet. Add it:</p>
+<pre><code>SHELL_TOKEN=1234</code></pre>
+<p>Then <code>epc restart shell</code>.</p>
 
-```bash
-epc logs shell   # or whatever you named it
-```
+<h4>"SSH key not found" on startup</h4>
+<p>The server can't find your SSH key. Make sure the path in <code>.env</code> matches what you created:</p>
+<pre><code>SSH_KEY_PATH=~/.ssh/shell_key</code></pre>
+<p>If you're using an existing key, point <code>SSH_KEY_PATH</code> at it and confirm it's in <code>~/.ssh/authorized_keys</code>.</p>
 
-This shows the live server output. Most issues are obvious from the first few lines.
+<h4>tmux not found</h4>
+<p>Install it: <code>brew install tmux</code> (Mac) or <code>sudo apt install tmux</code> (Linux), then <code>epc restart shell</code>.</p>
 
-#### Setup screen instead of PIN pad
+<h4>Garbled or missing unicode characters</h4>
+<p>tmux needs the right locale. Add to your <code>.env</code>:</p>
+<pre><code>LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8</code></pre>
+<p>If still broken, add to <code>~/.tmux.conf</code>:</p>
+<pre><code>set -g default-terminal "xterm-256color"</code></pre>
+<p>Then <code>epc restart shell</code>.</p>
 
-You haven't set `SHELL_TOKEN` in your `.env` yet. Add it:
-
-```
-SHELL_TOKEN=1234
-```
-
-Then `epc restart shell`.
-
-#### "SSH key not found" on startup
-
-The server can't find your SSH key. Make sure the path in `.env` matches what you created:
-
-```
-SSH_KEY_PATH=~/.ssh/shell_key
-```
-
-If you're using an existing key, point `SSH_KEY_PATH` at it and confirm it's in `~/.ssh/authorized_keys`.
-
-#### tmux not found
-
-Install it: `brew install tmux` (Mac) or `sudo apt install tmux` (Linux), then `epc restart shell`.
-
-#### Garbled or missing unicode characters in the terminal
-
-tmux needs the right locale to pass unicode through correctly. Add this to your `.env`:
-
-```
-LANG=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-```
-
-If you still see issues, add this to `~/.tmux.conf`:
-
-```
-set -g default-terminal "xterm-256color"
-```
-
-Then `epc restart shell`.
-
-#### Port already in use
-
-`epc deploy` will automatically pick the next available port if 4444 is taken and update `eps.toml`. Check `epc ps` to see which port your instance landed on.
-
+<h4>Port already in use</h4>
+<p><code>epc deploy</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epc ps</code> to see which port your instance landed on.</p>
 </details>
 
 ---
