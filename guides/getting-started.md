@@ -56,13 +56,19 @@ web-based terminal that runs in your phone's browser over Tailscale.
 
 **On your Mac:**
 
-Download the [Tailscale macOS app](https://tailscale.com/download/mac) or install via Homebrew:
+The easiest way is the [Tailscale macOS app](https://tailscale.com/download/mac) — it runs
+as a menu bar app and manages the daemon automatically. Sign in and you're done.
+
+If you prefer the terminal:
 
 ```bash
 brew install tailscale
+sudo tailscaled &   # start the daemon
+tailscale up        # authenticate (opens browser)
 ```
 
-Sign in with a Google, GitHub, or Microsoft account. A **tailnet** is created automatically.
+Either way, a **tailnet** is created automatically — a private network that only your
+devices can see.
 
 **On your iPhone:**
 
