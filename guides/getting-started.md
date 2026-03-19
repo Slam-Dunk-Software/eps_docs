@@ -16,7 +16,7 @@ stack. The whole thing takes about 15 minutes.
 curl -fsSL https://raw.githubusercontent.com/Slam-Dunk-Software/epm/main/install.sh | sh
 ```
 
-Installs a pre-built binary to `~/.local/bin`. Verify:
+Installs a pre-built binary to `/usr/local/bin`. Verify:
 
 ```bash
 epm --version
