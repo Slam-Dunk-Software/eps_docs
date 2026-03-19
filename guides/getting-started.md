@@ -1,30 +1,22 @@
 # Getting Started
 
-This guide will walk you through installing the `epm` CLI, spinning up your first personal
-app (the `todo` harness), and getting it running as a persistent service with `epc`. By the
-end you'll also have `observatory` watching your stack.
+This guide walks you through installing `epm` and `epc`, then spinning up `shell` — a
+web-based terminal with a mobile command palette that runs on your own machine. Once it's
+running, you can access your full shell from any device on your tailnet: your phone, a
+tablet, another laptop.
 
-For networking, we'll use Tailscale — it's a nifty setup that makes your personal services
-reachable from any of your devices with zero configuration. That said, do whatever works for
-you. Run it on localhost, use your LAN, use a different VPN. That's the EPS ethos.
-
-The whole thing takes about 15 minutes.
+From there you're hooked in — run more EPS commands, deploy more harnesses, build your
+stack. The whole thing takes about 15 minutes.
 
 ---
 
 ## 1. Install epm
 
-The quickest way:
-
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Slam-Dunk-Software/epm/main/install.sh | sh
 ```
 
-Downloads the right pre-built binary for your OS and architecture from
-[GitHub Releases](https://github.com/Slam-Dunk-Software/epm/releases) and installs it
-to `/usr/local/bin`.
-
-Verify it worked:
+Installs a pre-built binary to `~/.local/bin`. Verify:
 
 ```bash
 epm --version
@@ -32,61 +24,13 @@ epm --version
 
 ---
 
-## 2. Get the todo harness
+## 2. Install epc
+
+`epc` is the process supervisor that runs your EPS services as persistent background
+processes.
 
 ```bash
-epm new todo
-cd todo
-```
-
-This clones the `todo` harness, strips the upstream git history, and gives you a fresh repo
-that's entirely yours. You own it from the first commit.
-
-Open `CUSTOMIZE.md` — this is the harness author's note to you. It documents the extension
-points: what's designed to be changed, what the defaults are, and how to make it your own.
-Read it before you do anything else.
-
----
-
-## 3. Set up Tailscale (recommended)
-
-> **Note:** You can run `todo` however you like — bind it to localhost, expose it on your
-> LAN, use a VPN you already have. Tailscale is just what we recommend because it's the
-> easiest way to securely reach your personal services from any of your devices with zero
-> config.
-
-[Install Tailscale](https://tailscale.com/download) and sign in. Once you're on a tailnet,
-every device you add gets a stable private IP (something like `100.x.x.x`) that only
-your devices can see.
-
-Find your Tailscale IP:
-
-```bash
-tailscale ip -4
-```
-
-You'll use this IP as the `HOST` when starting services. The `todo` harness already expects
-this — check the `start` command in its `eps.toml`:
-
-```toml
-[service]
-start = "HOST=$(tailscale ip -4) cargo run --release"
-port  = 8765
-```
-
-This means when `epc` starts `todo`, it binds to your Tailscale IP. Open
-`http://<your-tailscale-ip>:8765` on your phone or any device on your tailnet — no port
-forwarding, no firewall rules.
-
----
-
-## 4. Install epc
-
-`epc` is the process supervisor for your personal cloud. It deploys your EPS harnesses as
-persistent background services and keeps them running.
-
-```bash
-cargo install --git https://github.com/nickagliano/epc
+epm runtime install epc
 ```
 
 Verify:
@@ -97,63 +41,145 @@ epc --version
 
 ---
 
-## 5. Deploy todo
+## 3. Set up Tailscale
 
-From inside your `todo` directory:
+> **Note:** Tailscale is optional — you can bind shell to localhost or your LAN instead.
+> But Tailscale is how you get your phone onto the same private network as your Mac in about
+> two minutes, with no port forwarding or firewall config.
+
+### On your Mac
+
+[Download Tailscale for macOS](https://tailscale.com/download/mac) and sign in with a
+Google, GitHub, or Microsoft account. A **tailnet** is created automatically — a private
+network that only your devices can see, with end-to-end encryption.
+
+### On your iPhone
+
+Install [Tailscale from the App Store](https://apps.apple.com/us/app/tailscale/id1470499037),
+sign in with the **same account**, and tap **Connect**. Your phone is now on the same
+tailnet as your Mac. That's genuinely all there is to it.
+
+### Find your Mac's Tailscale IP
 
 ```bash
-epc deploy .
+tailscale ip -4
 ```
 
-`epc` reads the `eps.toml`, starts the service using the `start` command, and registers it
-in `~/.epc/services.toml`. The first run compiles the release binary — this takes a minute.
+You'll get something like `100.x.x.x`. Every EPS service binds to this address by default,
+so anything you deploy is immediately reachable from your phone at
+`http://<tailscale-ip>:<port>`.
 
-Check that it's running:
+---
+
+## 4. Get shell
+
+```bash
+epm new shell
+cd shell
+```
+
+This clones the harness into a directory called `shell/`. If you'd rather call it something
+personal — `terminal`, `cockpit`, whatever feels right — just pass a name:
+
+```bash
+epm new shell seeing_stone
+cd seeing_stone
+```
+
+The directory name is yours. The harness is yours. EPS doesn't care what you call it.
+
+Read `CUSTOMIZE.md` — it covers every config knob before you deploy.
+
+### Required setup
+
+**Generate a dedicated SSH key** (shell SSHs into localhost to spawn your terminal):
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/shell_key -N ""
+cat ~/.ssh/shell_key.pub >> ~/.ssh/authorized_keys
+```
+
+**Install dependencies:**
+
+```bash
+npm install
+```
+
+**Create a `.env` file with your PIN:**
+
+```
+SHELL_TOKEN=1234
+```
+
+This is the PIN on the lock screen. 4 digits recommended — change it to something only you
+know.
+
+---
+
+## 5. Deploy
+
+```bash
+epc deploy
+```
+
+`epc` reads `eps.toml`, starts `node server.js` bound to your Tailscale IP, and registers
+the service. Check it:
 
 ```bash
 epc ps
 ```
 
-You should see something like:
-
 ```
-NAME   PORT   STATUS
-todo   8765   running
+NAME    PORT   STATUS
+shell   4444   running
 ```
 
-Open `http://<your-tailscale-ip>:8765` in your browser. Your todo app is live.
+Open `http://<your-tailscale-ip>:4444` in your browser — or on your phone. Enter your PIN.
+You're in your shell from anywhere on your tailnet.
 
 ---
 
 ## 6. Make it yours
 
-Now's the time to go back to `CUSTOMIZE.md` and actually customize. Common starting points:
+Open `CUSTOMIZE.md` in your `shell` directory. Key things to personalize:
 
-- **Theme** — change `APP_COLOR` in your environment or `.env` file
-- **Title** — update the app name in the UI
-- **Features** — add, remove, or rewire anything. You own the source.
+- **`palette.json`** — add your own command shortcuts to the palette (the buttons on the
+  side panel / mobile bottom sheet)
+- **`SHELL_TOKEN`** — change the PIN in `.env`
+- **`TMUX_SESSION`** — attach to a specific tmux session by name
+- **`public/index.html`** — the whole frontend is a single file, edit it freely
 
-After any change that requires a rebuild:
+After any change:
 
 ```bash
-epc restart todo
+epc restart shell
 ```
 
 ---
 
-## 7. Get observatory running
+## 7. Start on login
 
-`observatory` gives you a web dashboard (and TUI) to monitor all your running services in
-one place. It'll show you health status, ports, and send you an SMS if something goes down.
+To have `epc` launch all your services automatically when you log in:
 
 ```bash
-cd ~
-epm new observatory
-cd observatory
-epc deploy .
+epc install-startup
 ```
 
-Once it's running:
+This installs a LaunchAgent that runs `epc startup` at login. Individual services opt in
+via `startup = true` in their `eps.toml` — all official EPS harnesses include this by
+default.
+
+---
+
+## 8. Add observatory
+
+`observatory` watches all your running services and sends you an SMS if something goes down.
+
+```bash
+epm runtime install observatory
+cd ~/observatory
+epc deploy
+```
 
 ```bash
 epc ps
@@ -161,19 +187,24 @@ epc ps
 
 ```
 NAME          PORT   STATUS
-todo          8765   running
+shell         4444   running
 observatory   9090   running
 ```
 
-Open `http://<your-tailscale-ip>:9090`. You'll see `todo` listed and being monitored.
+Open `http://<your-tailscale-ip>:9090` to see your dashboard. From your phone, on your
+tailnet, you now have a terminal and a monitoring dashboard for your personal cloud.
 
-To configure SMS alerts, see `CUSTOMIZE.md` inside your `observatory` directory — it walks
-through wiring in `txtme` or any webhook-compatible notification service.
+See `CUSTOMIZE.md` in your `observatory` directory to wire up SMS alerts via `txtme`.
 
 ---
 
 ## What's next
 
-- Browse [packages on epm.dev](https://epm.dev/packages) for more harnesses to add to your stack
-- Read [What is EPS?](/docs/concepts/what-is-eps) for the philosophy behind how these pieces fit together
-- Check the [CUSTOMIZE.md concept doc](/docs/concepts/customize-md) to understand how harness authors design extension points
+- Browse [packages on epm.dev](https://epm.dev/packages) — todo lists, CRMs, note apps,
+  SMS endpoints, and more
+- Open any package page in your browser with `epm open <name>`
+- Read [What is EPS?](/docs/concepts/what-is-eps) for the philosophy behind the stack
+- Check the [CUSTOMIZE.md concept doc](/docs/concepts/customize-md) to understand how
+  harness authors design extension points
+- Use `epm adopt <name>` to pull a harness into your repo as first-class source code, and
+  `epm sync <name>` to check for upstream changes later
