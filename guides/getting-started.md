@@ -135,17 +135,23 @@ The directory name is yours. The harness is yours. EPS doesn't care what you cal
 
 Read `CUSTOMIZE.md` — it covers every config knob before you deploy.
 
-### Required setup
+### Setup
 
-**Generate a dedicated SSH key for shell:**
+**Set up SSH access for the terminal:**
 
-The web terminal works by having the Node server SSH into your own machine to create a
-terminal session. It needs its own key so it can do that without a password prompt.
+`shell` works by having the Node server SSH into your own machine to create a terminal
+session — that's how it gets a real PTY without needing root or a native daemon. It needs
+a key it can use to authenticate without a password prompt.
+
+The simplest approach is a dedicated key:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/shell_key -N ""
 cat ~/.ssh/shell_key.pub >> ~/.ssh/authorized_keys
 ```
+
+If you already have an SSH key in `~/.ssh/authorized_keys`, you can skip keygen and set
+`SSH_KEY_PATH` to point at it in your `.env` instead.
 
 **Install dependencies:**
 
