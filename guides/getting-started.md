@@ -56,8 +56,13 @@ web-based terminal that runs in your phone's browser over Tailscale.
 
 **On your Mac:**
 
-[Download Tailscale for macOS](https://tailscale.com/download/mac) and sign in with a
-Google, GitHub, or Microsoft account. A **tailnet** is created automatically.
+Download the [Tailscale macOS app](https://tailscale.com/download/mac) or install via Homebrew:
+
+```bash
+brew install tailscale
+```
+
+Sign in with a Google, GitHub, or Microsoft account. A **tailnet** is created automatically.
 
 **On your iPhone:**
 
