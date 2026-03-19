@@ -85,7 +85,7 @@ If you already have an SSH key in `~/.ssh/authorized_keys`, you can skip keygen 
 npm install
 ```
 
-> **Don't skip this.** If you run `epc deploy` before `npm install`, the service will
+> **Don't skip this.** If you run `epc serve` before `npm install`, the service will
 > crash on startup. `epc` will show you the error logs, but save yourself the detour —
 > run `npm install` first.
 
@@ -99,10 +99,10 @@ This is the PIN on the lock screen. Change it to something only you know.
 
 ---
 
-## 4. Deploy
+## 4. Serve
 
 ```bash
-epc deploy
+epc serve
 ```
 
 `epc` reads `eps.toml`, starts the server, and registers the service. Check it:
@@ -146,7 +146,7 @@ LC_ALL=en_US.UTF-8</code></pre>
 <p>Then <code>epc restart shell</code>.</p>
 
 <h4>Port already in use</h4>
-<p><code>epc deploy</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epc ps</code> to see which port your instance landed on.</p>
+<p><code>epc serve</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epc ps</code> to see which port your instance landed on.</p>
 </details>
 
 ---
@@ -217,7 +217,7 @@ If you'd rather use a dedicated SSH client than a browser-based terminal:
 
 Enable SSH in **System Settings → General → Sharing → Remote Login**.
 
-> You can still deploy EPS harnesses alongside this — `epm new` and `epc deploy` work
+> You can still deploy EPS harnesses alongside this — `epm new` and `epc serve` work
 > the same either way.
 
 ---
@@ -261,7 +261,7 @@ default.
 ```bash
 epm runtime install observatory
 cd ~/observatory
-epc deploy
+epc serve
 ```
 
 ```bash
