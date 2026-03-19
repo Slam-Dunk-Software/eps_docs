@@ -118,7 +118,8 @@ shell   4444   running
 
 Open `http://localhost:4444` in your browser. Enter your PIN. You're in.
 
-### Troubleshooting
+<details>
+<summary>Troubleshooting</summary>
 
 Something not working? Start here:
 
@@ -128,7 +129,7 @@ epc logs shell   # or whatever you named it
 
 This shows the live server output. Most issues are obvious from the first few lines.
 
-**Setup screen instead of PIN pad**
+#### Setup screen instead of PIN pad
 
 You haven't set `SHELL_TOKEN` in your `.env` yet. Add it:
 
@@ -138,7 +139,7 @@ SHELL_TOKEN=1234
 
 Then `epc restart shell`.
 
-**"SSH key not found" on startup**
+#### "SSH key not found" on startup
 
 The server can't find your SSH key. Make sure the path in `.env` matches what you created:
 
@@ -148,11 +149,11 @@ SSH_KEY_PATH=~/.ssh/shell_key
 
 If you're using an existing key, point `SSH_KEY_PATH` at it and confirm it's in `~/.ssh/authorized_keys`.
 
-**tmux not found**
+#### tmux not found
 
 Install it: `brew install tmux` (Mac) or `sudo apt install tmux` (Linux), then `epc restart shell`.
 
-**Garbled or missing unicode characters in the terminal**
+#### Garbled or missing unicode characters in the terminal
 
 tmux needs the right locale to pass unicode through correctly. Add this to your `.env`:
 
@@ -169,9 +170,11 @@ set -g default-terminal "xterm-256color"
 
 Then `epc restart shell`.
 
-**Port already in use**
+#### Port already in use
 
 `epc deploy` will automatically pick the next available port if 4444 is taken and update `eps.toml`. Check `epc ps` to see which port your instance landed on.
+
+</details>
 
 ---
 
