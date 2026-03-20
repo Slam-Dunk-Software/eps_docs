@@ -1,0 +1,10 @@
+[package]
+name        = "eps_docs"
+version     = "0.1.0"
+description = "Official EPS ecosystem documentation — concepts, ADRs, guides, and EPC reference."
+authors     = ["Slam-Dunk-Software"]
+license     = "MIT"
+repository  = "https://github.com/Slam-Dunk-Software/eps_docs"
+
+[eps]
+type = "docs"
