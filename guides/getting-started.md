@@ -286,6 +286,39 @@ See `CUSTOMIZE.md` in your `observatory` directory to wire up SMS alerts via `tx
 
 ---
 
+## 9. Feeling ambitious? Add HTTPS
+
+If you've got Tailscale running, you can get a real HTTPS cert for your machine in about two minutes — no reverse proxy, no Let's Encrypt, no port 80.
+
+Tailscale issues certificates for your MagicDNS hostname (e.g. `my-mac.tail1234.ts.net`) via its built-in CA. Enable it first:
+
+1. In the [Tailscale admin console](https://login.tailscale.com/admin/dns), turn on **MagicDNS** and **HTTPS certificates**.
+
+2. On your Mac, fetch the cert:
+
+```bash
+tailscale cert $(tailscale whois $(tailscale ip -4) | grep Name: | awk '{print $2}')
+```
+
+This writes two files to the current directory: `<hostname>.ts.net.crt` and `<hostname>.ts.net.key`.
+
+3. Add them to your `.env`:
+
+```
+TLS_CERT=/path/to/<hostname>.ts.net.crt
+TLS_KEY=/path/to/<hostname>.ts.net.key
+```
+
+4. Restart:
+
+```bash
+epc restart shell
+```
+
+You can now open `https://<hostname>.ts.net:4444` from any device on your tailnet. Note: once TLS is enabled you'll need to use the hostname — `https://<hostname>.ts.net:4444`. The raw IP still works over plain HTTP if you need it.
+
+---
+
 ## What's next
 
 - Browse [packages on epm.dev](https://epm.dev/packages) — todo lists, CRMs, note apps,
