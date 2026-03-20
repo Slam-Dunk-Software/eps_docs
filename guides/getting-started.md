@@ -13,7 +13,11 @@ more.
 curl -fsSL https://raw.githubusercontent.com/Slam-Dunk-Software/epm/main/install.sh | sh
 ```
 
-Installs a pre-built binary to `/usr/local/bin`. Verify:
+Installs a pre-built binary to `/usr/local/bin`. Supports macOS (Intel + Apple Silicon) and Linux (x86_64 + ARM64 / Raspberry Pi).
+
+> **Windows:** Native Windows is not supported. Install [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) and run the installer from there.
+
+Verify:
 
 ```bash
 epm --version
