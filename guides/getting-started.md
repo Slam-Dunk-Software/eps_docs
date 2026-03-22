@@ -50,20 +50,20 @@ The directory name is yours. The harness is yours. EPS doesn't care what you cal
 session — that's how it gets a real PTY without needing root or a native daemon. It needs
 a key it can use to authenticate without a password prompt.
 
-**On macOS**, make sure Remote Login is enabled first:
-**System Settings → General → Sharing → Remote Login → On**
+First, make sure SSH is enabled on your machine:
 
-On Linux, ensure sshd is running: `sudo systemctl enable ssh && sudo systemctl start ssh`
+- **macOS:** System Settings → General → Sharing → Remote Login → **On**
+- **Linux:** `sudo systemctl enable ssh && sudo systemctl start ssh`
 
-The simplest approach is a dedicated key:
+Then create a dedicated key for shell:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/shell_key -N ""
 cat ~/.ssh/shell_key.pub >> ~/.ssh/authorized_keys
 ```
 
-If you already have an SSH key in `~/.ssh/authorized_keys`, you can skip keygen and set
-`SSH_KEY_PATH` to point at it in your `.env` instead.
+If you already have a key in `~/.ssh/authorized_keys`, you can skip keygen and point
+`SSH_KEY_PATH` at it in your `.env` instead.
 
 **Install dependencies:**
 
