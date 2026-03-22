@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide walks you through installing `epm` and `epc`, then spinning up `shell` — a
+This guide walks you through installing `epm`, then spinning up `shell` — a
 web-based terminal with a mobile command palette that runs on your own machine. You'll
 have it running in your browser in about 10 minutes. Getting it on your phone takes a few
 more.
@@ -25,27 +25,7 @@ epm --version
 
 ---
 
-## 2. Install epc
-
-The `epm` installer will ask if you want to install `epc` — say yes. `epc` is the process
-supervisor that runs your EPS services as persistent background processes, and you'll need
-it for everything that follows.
-
-If you skipped it or installed `epm` non-interactively, run:
-
-```bash
-epm runtime install epc
-```
-
-Verify:
-
-```bash
-epc --version
-```
-
----
-
-## 3. Get shell
+## 2. Get shell
 
 ```bash
 epm new shell
@@ -93,9 +73,9 @@ If you already have an SSH key in `~/.ssh/authorized_keys`, you can skip keygen 
 npm install
 ```
 
-> **Don't skip this.** If you run `epc serve` before `npm install`, the service will
-> crash on startup. `epc` will show you the error logs, but save yourself the detour —
-> run `npm install` first.
+> **Don't skip this.** If you run `epm services serve` before `npm install`, the service will
+> crash on startup. `epm services logs shell` will show you the error, but save yourself
+> the detour — run `npm install` first.
 
 **Create a `.env` file with your PIN:**
 
@@ -107,16 +87,16 @@ This is the PIN on the lock screen. Change it to something only you know.
 
 ---
 
-## 4. Serve
+## 3. Serve
 
 ```bash
-epc serve
+epm services serve
 ```
 
-`epc` reads `eps.toml`, starts the server, and registers the service. Check it:
+`epm services` reads `eps.toml`, starts the server, and registers the service. Check it:
 
 ```bash
-epc ps
+epm services ps
 ```
 
 ```
@@ -129,13 +109,13 @@ Open `http://localhost:4444` in your browser. Enter your PIN. You're in.
 <details>
 <summary>Having issues? Expand troubleshooting</summary>
 <p>Start by checking the logs:</p>
-<pre><code>epc logs shell   # or whatever you named it</code></pre>
+<pre><code>epm services logs shell   # or whatever you named it</code></pre>
 <p>Most issues are obvious from the first few lines.</p>
 
 <h4>Setup screen instead of PIN pad</h4>
 <p>You haven't set <code>SHELL_TOKEN</code> in your <code>.env</code> yet. Add it:</p>
 <pre><code>SHELL_TOKEN=1234</code></pre>
-<p>Then <code>epc restart shell</code>.</p>
+<p>Then <code>epm services restart shell</code>.</p>
 
 <h4>"SSH key not found" on startup</h4>
 <p>The server can't find your SSH key. Make sure the path in <code>.env</code> matches what you created:</p>
@@ -143,7 +123,7 @@ Open `http://localhost:4444` in your browser. Enter your PIN. You're in.
 <p>If you're using an existing key, point <code>SSH_KEY_PATH</code> at it and confirm it's in <code>~/.ssh/authorized_keys</code>.</p>
 
 <h4>tmux not found</h4>
-<p>Install it: <code>brew install tmux</code> (Mac) or <code>sudo apt install tmux</code> (Linux), then <code>epc restart shell</code>.</p>
+<p>Install it: <code>brew install tmux</code> (Mac) or <code>sudo apt install tmux</code> (Linux), then <code>epm services restart shell</code>.</p>
 
 <h4>Garbled or missing unicode characters</h4>
 <p>tmux needs the right locale. Add to your <code>.env</code>:</p>
@@ -151,15 +131,15 @@ Open `http://localhost:4444` in your browser. Enter your PIN. You're in.
 LC_ALL=en_US.UTF-8</code></pre>
 <p>If still broken, add to <code>~/.tmux.conf</code>:</p>
 <pre><code>set -g default-terminal "xterm-256color"</code></pre>
-<p>Then <code>epc restart shell</code>.</p>
+<p>Then <code>epm services restart shell</code>.</p>
 
 <h4>Port already in use</h4>
-<p><code>epc serve</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epc ps</code> to see which port your instance landed on.</p>
+<p><code>epm services serve</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epm services ps</code> to see which port your instance landed on.</p>
 </details>
 
 ---
 
-## 5. Access from your phone
+## 4. Access from your phone
 
 Shell is running on your machine. To reach it from your phone you need a way to connect
 — Tailscale is the easiest option, but there are others.
@@ -198,7 +178,7 @@ sign in with the **same account**, and tap **Connect**.
 Then restart shell so it binds to your Tailscale IP:
 
 ```bash
-epc restart shell
+epm services restart shell
 ```
 
 Open `http://<your-tailscale-ip>:4444` on your phone. You're in your shell from anywhere
@@ -225,12 +205,12 @@ If you'd rather use a dedicated SSH client than a browser-based terminal:
 
 Enable SSH in **System Settings → General → Sharing → Remote Login**.
 
-> You can still deploy EPS harnesses alongside this — `epm new` and `epc serve` work
-> the same either way.
+> You can still deploy EPS harnesses alongside this — `epm new` and `epm services serve`
+> work the same either way.
 
 ---
 
-## 6. Make it yours
+## 5. Make it yours
 
 Open `CUSTOMIZE.md` in your `shell` directory. Key things to personalize:
 
@@ -243,35 +223,35 @@ Open `CUSTOMIZE.md` in your `shell` directory. Key things to personalize:
 After any change:
 
 ```bash
-epc restart shell
+epm services restart shell
 ```
 
 ---
 
-## 7. Start on login
+## 6. Start on login
 
-To have `epc` launch all your services automatically when you log in:
+To have `epm services` launch all your services automatically when you log in:
 
 ```bash
-epc install-startup
+epm services install-startup
 ```
 
-On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd user unit (`~/.config/systemd/user/epc-startup.service`). Individual services opt in via `startup = true` in their `eps.toml` — all official EPS harnesses include this by default.
+On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd user unit (`~/.config/systemd/user/epm-startup.service`). Individual services opt in via `startup = true` in their `eps.toml` — all official EPS harnesses include this by default.
 
 ---
 
-## 8. Add observatory
+## 7. Add observatory
 
 `observatory` watches all your running services and sends you an SMS if something goes down.
 
 ```bash
 epm runtime install observatory
 cd ~/observatory
-epc serve
+epm services serve
 ```
 
 ```bash
-epc ps
+epm services ps
 ```
 
 ```
@@ -286,7 +266,7 @@ See `CUSTOMIZE.md` in your `observatory` directory to wire up SMS alerts via `tx
 
 ---
 
-## 9. Feeling ambitious? Add HTTPS
+## 8. Feeling ambitious? Add HTTPS
 
 If you've got Tailscale running, you can get a real HTTPS cert for your machine in about two minutes — no reverse proxy, no Let's Encrypt, no port 80.
 
@@ -312,7 +292,7 @@ TLS_KEY=/path/to/<hostname>.ts.net.key
 4. Restart:
 
 ```bash
-epc restart shell
+epm services restart shell
 ```
 
 You can now open `https://<hostname>.ts.net:4444` from any device on your tailnet. Note: once TLS is enabled you'll need to use the hostname — `https://<hostname>.ts.net:4444`. The raw IP still works over plain HTTP if you need it.

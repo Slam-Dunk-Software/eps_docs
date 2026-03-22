@@ -15,7 +15,7 @@ Install it via EPM, then deploy:
 
 ```bash
 epm install tech_talker
-epc deploy tech_talker
+epc serve tech_talker
 ```
 
 EPC will:
@@ -26,9 +26,9 @@ EPC will:
 You can also deploy from a local project directory:
 
 ```bash
-epc deploy --local ./my-project
+epc serve --local ./my-project
 # or from inside the project:
-epc deploy
+epc serve
 ```
 
 ## Check what's running
