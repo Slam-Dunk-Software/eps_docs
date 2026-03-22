@@ -245,7 +245,7 @@ On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd use
 `observatory` watches all your running services and sends you an SMS if something goes down.
 
 ```bash
-epm runtime install observatory
+epm new observatory
 cd ~/observatory
 epm services serve
 ```
