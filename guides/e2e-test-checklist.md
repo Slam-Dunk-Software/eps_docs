@@ -26,10 +26,10 @@ This is a **human walkthrough** to run on a fresh machine (or fresh user account
 
 ## Scaffold a new project
 
-- [ ] `epm new shell` creates a `shell/` directory
-- [ ] `shell/eps.toml` exists and has correct `[package]` and `[service]` sections
-- [ ] `shell/CUSTOMIZE.md` is present and readable
-- [ ] `cd shell && npm install` succeeds
+- [ ] `epm new shell` creates a `~/eps/shell/` directory
+- [ ] `~/eps/shell/eps.toml` exists and has correct `[package]` and `[service]` sections
+- [ ] `~/eps/shell/CUSTOMIZE.md` is present and readable
+- [ ] `cd ~/eps/shell && npm install` succeeds
 
 ## Configure
 

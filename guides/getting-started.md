@@ -29,15 +29,14 @@ epm --version
 
 ```bash
 epm new shell
-cd shell
+cd ~/eps/shell
 ```
 
-This clones the harness into a directory called `shell/`. If you'd rather call it something
-personal — `terminal`, `cockpit`, whatever feels right — just pass a name:
+`epm new` scaffolds into `~/eps/` by default — all your EPS projects live together in one place. If you'd rather call it something personal — `terminal`, `cockpit`, whatever feels right — just pass a name:
 
 ```bash
 epm new shell seeing_stone
-cd seeing_stone
+cd ~/eps/seeing_stone
 ```
 
 The directory name is yours. The harness is yours. EPS doesn't care what you call it.
@@ -246,7 +245,7 @@ On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd use
 
 ```bash
 epm new observatory
-cd ~/observatory
+cd ~/eps/observatory
 epm services serve
 ```
 
