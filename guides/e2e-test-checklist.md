@@ -71,6 +71,6 @@ This is a **human walkthrough** to run on a fresh machine (or fresh user account
 Check the following are in good shape before announcing launch:
 
 - [ ] `epm.dev` loads with correct getting-started docs
-- [ ] `epm.dev/docs/guides/mcp-setup` renders correctly
+- [ ] `epm.dev/docs/guides/skills-setup` renders correctly
 - [ ] At least 3 quality packages are visible on `epm.dev/packages`
 - [ ] GitHub OAuth flow works end-to-end on production (`https://epm.dev`)
