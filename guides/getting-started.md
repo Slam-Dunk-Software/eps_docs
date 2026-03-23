@@ -72,7 +72,7 @@ If you already have a key in `~/.ssh/authorized_keys`, you can skip keygen and p
 npm install
 ```
 
-> **Don't skip this.** If you run `epm services serve` before `npm install`, the service will
+> **Don't skip this.** If you run `epm services start` before `npm install`, the service will
 > crash on startup. `epm services logs shell` will show you the error, but save yourself
 > the detour — run `npm install` first.
 
@@ -89,7 +89,7 @@ This is the PIN on the lock screen. Change it to something only you know.
 ## 3. Serve
 
 ```bash
-epm services serve
+epm services start
 ```
 
 `epm services` reads `eps.toml`, starts the server, and registers the service. Check it:
@@ -133,7 +133,7 @@ LC_ALL=en_US.UTF-8</code></pre>
 <p>Then <code>epm services restart shell</code>.</p>
 
 <h4>Port already in use</h4>
-<p><code>epm services serve</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epm services ps</code> to see which port your instance landed on.</p>
+<p><code>epm services start</code> will automatically pick the next available port if 4444 is taken and update <code>eps.toml</code>. Check <code>epm services ps</code> to see which port your instance landed on.</p>
 </details>
 
 ---
@@ -204,7 +204,7 @@ If you'd rather use a dedicated SSH client than a browser-based terminal:
 
 Enable SSH in **System Settings → General → Sharing → Remote Login**.
 
-> You can still deploy EPS harnesses alongside this — `epm new` and `epm services serve`
+> You can still deploy EPS harnesses alongside this — `epm new` and `epm services start`
 > work the same either way.
 
 ---
@@ -246,7 +246,7 @@ On **macOS** this installs a LaunchAgent. On **Linux** it installs a systemd use
 ```bash
 epm new observatory
 cd ~/eps/observatory
-epm services serve
+epm services start
 ```
 
 ```bash

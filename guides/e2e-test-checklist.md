@@ -38,7 +38,7 @@ This is a **human walkthrough** to run on a fresh machine (or fresh user account
 
 ## Deploy
 
-- [ ] `epm services serve` (from inside `shell/`) starts the service
+- [ ] `epm services start` (from inside `shell/`) starts the service
 - [ ] `epm services ps` shows `shell` with status `running`
 - [ ] `http://<tailscale-ip>:4444` loads in browser on local machine
 - [ ] PIN screen appears; correct PIN is accepted
@@ -53,7 +53,7 @@ This is a **human walkthrough** to run on a fresh machine (or fresh user account
 
 ## Observatory (optional but recommended)
 
-- [ ] `epm new observatory` + `epm services serve` deploys observatory
+- [ ] `epm new observatory` + `epm services start` deploys observatory
 - [ ] Observatory dashboard at `http://<tailscale-ip>:9090` shows `shell` as running
 - [ ] `epm login` token works for publishing a test package
 
