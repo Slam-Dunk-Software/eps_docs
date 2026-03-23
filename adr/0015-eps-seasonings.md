@@ -95,7 +95,7 @@ Or, if the agent has local file access:
 "Apply the seasonings/pin_gate.md seasoning to palantir."
 ```
 
-### Relationship to EPM and EPC
+### Relationship to EPM
 
 Seasonings are adjacent to the EPM ecosystem but not part of it. EPM distributes
 harnesses. Seasonings distribute knowledge. The two can reference each other — a
@@ -106,7 +106,7 @@ are distinct primitives with distinct distribution models.
 
 ## Consequences
 
-- `eps_seasonings` becomes a first-class EPS repository alongside `epm`, `epc`, and
+- `eps_seasonings` becomes a first-class EPS repository alongside `epm` and
   `epm_registry`
 - The ecosystem gains a lightweight, no-install distribution primitive for patterns
   that don't warrant full packages

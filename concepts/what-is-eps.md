@@ -94,12 +94,12 @@ whether the author designed for extension or just didn't finish.
 
 EPS have two structural archetypes (app harness vs framework harness), but they also
 fall into three deployment models. The deployment model determines how an EPS runs, how
-EPC manages it, and how it's accessed.
+epm services manages it, and how it's accessed.
 
 ### Native harness
 
 Runs as a desktop or system application — macOS GUI, global hotkeys, microphone, camera.
-No network port. EPC cannot manage it as a daemon.
+No network port. epm services cannot manage it as a daemon (no `[service]` block).
 
 Distribution: installed locally, launched by the OS or the user directly. Extension
 model: can have its own in-app plugin store (e.g. `tech_talker` language packs or model
@@ -109,7 +109,7 @@ Example: `tech_talker`
 
 ### Service harness
 
-Binds a TCP port and serves HTTP or WebSocket. EPC deploys it as a persistent daemon and
+Binds a TCP port and serves HTTP or WebSocket. epm services deploys it as a persistent daemon and
 the dashboard discovers it automatically. Accessible from any device on the tailnet via
 a browser — no installation on the client side.
 
@@ -119,7 +119,7 @@ Examples: `notes`, `todo`, `chat`, `eps-dashboard`
 
 ### Tool harness
 
-A CLI invoked on demand. No port, no GUI. EPC doesn't manage it (no `[service]` block).
+A CLI invoked on demand. No port, no GUI. epm services doesn't manage it (no `[service]` block).
 Composes naturally with other tools; often a building block rather than an end product.
 
 Example: `pi` (OpenClaw)

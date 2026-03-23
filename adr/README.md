@@ -22,3 +22,5 @@ Decisions marked **Accepted** are in effect. **Draft** decisions are still being
 | [0013](0013-system-dependency-declaration.md) | System Dependency Declaration | Accepted |
 | [0014](0014-epm-init-scaffolding.md) | `epm init` Scaffolding | Accepted |
 | [0015](0015-eps-seasonings.md) | EPS Seasonings | Accepted |
+| [0016](0016-process-management-in-epm.md) | Process Management Built Into epm | Accepted |
+| [0017](0017-skills-over-mcp.md) | Claude Code Skills Over MCP | Accepted |
