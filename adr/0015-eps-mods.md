@@ -1,4 +1,4 @@
-# ADR-0015 — EPS Seasonings
+# ADR-0015 — EPS Mods
 
 **Status:** Accepted
 
@@ -23,40 +23,40 @@ The existing primitives don't cover this:
 There is also an LLM-friendliness angle. EPS is designed to be customized with agent
 assistance. An agent that can read a structured pattern document and apply it correctly
 to any EPS web app is significantly more useful than one reasoning from first principles.
-Seasonings are that document.
+Mods are that document.
 
 ---
 
 ## Decision
 
-We define a new primitive: the **seasoning**.
+We define a new primitive: the **mod**.
 
-A seasoning is a **self-contained, LLM-ready implementation pattern** for EPS apps.
-It is not code — it is instructions. A seasoning describes a capability, explains why
+A mod is a **self-contained, LLM-ready implementation pattern** for EPS apps.
+It is not code — it is instructions. A mod describes a capability, explains why
 it works, and tells an agent (or human) exactly how to apply it to any compatible EPS.
 
-Seasonings live in the `eps_seasonings` repository. Each seasoning is a single markdown
+Mods live in the `eps_mods` repository. Each mod is a single markdown
 file following a standard structure (see below). They are versioned as a collection,
 not individually.
 
-### What a seasoning is
+### What a mod is
 
 - A documented, proven implementation pattern
 - Stack-agnostic (written for any EPS web app regardless of language or framework)
 - Self-contained (everything needed to apply it is in the file)
 - LLM-targeted (structured so an agent can apply it without guessing)
 
-### What a seasoning is not
+### What a mod is not
 
 - Not an EPS harness (not installable via `epm install`)
 - Not a library (no build step, no import, no dependency)
 - Not a config template (it describes behavior, not settings)
 - Not agent infrastructure (like all EPS primitives, the beneficiary is a human)
 
-### Required structure for every seasoning
+### Required structure for every mod
 
 ```
-# Seasoning: <Name>
+# Mod: <Name>
 
 ## What it does
 One paragraph. What capability this adds.
@@ -65,7 +65,7 @@ One paragraph. What capability this adds.
 The mechanism. Why this approach rather than the obvious one.
 
 ## When to apply
-The right context for this seasoning. What kind of EPS app benefits.
+The right context for this mod. What kind of EPS app benefits.
 
 ## Implementation
 Numbered steps with code blocks. Complete and copy-pasteable.
@@ -82,44 +82,44 @@ Edge cases, browser/OS quirks, version requirements, reference implementations.
 
 ### Distribution
 
-Seasonings are consumed by copying or referencing the markdown file. There is no
+Mods are consumed by copying or referencing the markdown file. There is no
 install command. The standard usage pattern is:
 
 ```
-"Apply the pin_gate seasoning to this project. Here's the seasoning: [paste contents]"
+"Apply the pin_gate mod to this project. Here's the mod: [paste contents]"
 ```
 
 Or, if the agent has local file access:
 
 ```
-"Apply the seasonings/pin_gate.md seasoning to palantir."
+"Apply the mods/pin_gate.md mod to palantir."
 ```
 
 ### Relationship to EPM
 
-Seasonings are adjacent to the EPM ecosystem but not part of it. EPM distributes
-harnesses. Seasonings distribute knowledge. The two can reference each other — a
-harness CUSTOMIZE.md might say "apply the pin_gate seasoning for auth" — but they
+Mods are adjacent to the EPM ecosystem but not part of it. EPM distributes
+harnesses. Mods distribute knowledge. The two can reference each other — a
+harness CUSTOMIZE.md might say "apply the pin_gate mod for auth" — but they
 are distinct primitives with distinct distribution models.
 
 ---
 
 ## Consequences
 
-- `eps_seasonings` becomes a first-class EPS repository alongside `epm` and
+- `eps_mods` becomes a first-class EPS repository alongside `epm` and
   `epm_registry`
 - The ecosystem gains a lightweight, no-install distribution primitive for patterns
   that don't warrant full packages
 - Agents working on EPS apps have a named, browsable library of proven patterns to
   draw from
-- The bar for adding a seasoning is intentionally low: a pattern that has worked in
+- The bar for adding a mod is intentionally low: a pattern that has worked in
   at least one real EPS app and is worth preserving
 
 ---
 
-## Current seasonings
+## Current mods
 
-| Seasoning | Description |
+| Mod | Description |
 |-----------|-------------|
 | `haptics` | iOS Taptic Engine feedback via hidden switch input |
 | `pin_gate` | 4-digit PIN entry screen with on-screen numpad and Fibonacci lockout |
