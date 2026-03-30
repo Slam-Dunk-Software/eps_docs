@@ -9,7 +9,7 @@ artifact of the EPS contract.
 extension points where users make the harness their own. It's written for the person who
 just cloned the repo and wants to know: *what do I actually change?*
 
-It must be:
+It should be:
 
 - **Complete** — every port is listed
 - **Flat** — one file, readable in one fetch (for both humans and LLMs)
@@ -52,6 +52,5 @@ chapter in the book, but must also remain as a standalone file at the root.
 
 ## LLM-friendliness
 
-One flat file, one fetch. An LLM answering "how do I change the transcription model in
-tech_talker?" can fetch `CUSTOMIZE.md` directly and get the answer without navigating a
-doc site. This is a design constraint, not a coincidence.
+One flat file, one fetch. An LLM answering "how do I change the data directory in
+[CRM](https://github.com/Slam-Dunk-Software/crm/blob/main/CUSTOMIZE.md)?" can fetch `CUSTOMIZE.md` directly and get the answer without navigating a doc site.
